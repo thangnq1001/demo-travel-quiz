@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import TravelQuiz from './TravelQuiz';
+import Itinerary from './Itinerary';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const quizConfig = {
+  surveyId: process.env.REACT_APP_SURVEY_ID
 }
+
+const App = () => {
+  const [tripPreferences, setTripPreferences] = useState(null);
+
+  const handleSubmit = (quizAnswer) => {
+    console.log('quizAnswer', quizAnswer);
+    setTripPreferences(quizAnswer);
+  };
+
+  return tripPreferences ? (
+    <Itinerary tripPreferences={tripPreferences} />
+  ) : (
+    <TravelQuiz
+      quizConfig={quizConfig}
+      onSubmit={handleSubmit}
+    />
+  );
+};
 
 export default App;
